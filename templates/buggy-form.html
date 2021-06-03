@@ -6,9 +6,10 @@
 
   <form action="/new" method="post">
     <label for="qty_wheels">Number of wheels:</label>
-    <input type="number" name="qty_wheels" />
+    <input type="number" name="qty_wheels" value={{ buggy['qty_wheels'] }} />
     <label for="flag_color">Colour of flag:</label>
     <select id="color" name="flag_color">
+      <option selected="selected">{{ buggy['flag_color'] }}</option>
       <option value="Red">Red</option>
       <option value="Blue">Blue</option>
       <option value="Green">Green</option>

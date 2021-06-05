@@ -23,19 +23,35 @@ def home():
 #------------------------------------------------------------
 @app.route('/new', methods = ['POST', 'GET'])
 def create_buggy():
-    if request.method == 'GET':
+    msg=""
+    def buggy_form():
         con = sql.connect(DATABASE_FILE)
         con.row_factory = sql.Row
         cur = con.cursor()
         cur.execute("SELECT * FROM buggies")
         record = cur.fetchone(); 
-        return render_template("buggy-form.html", buggy = record)
+        return render_template("buggy-form.html", buggy = record, msg = msg)
+
+    if request.method == 'GET':
+        return buggy_form()
     elif request.method == 'POST':
-        msg=""
         qty_wheels = request.form['qty_wheels']
         flag_color = request.form['flag_color']
         flag_color_secondary = request.form['flag_color_secondary']
         flag_pattern = request.form['flag_pattern']
+        if int(qty_wheels) >= 4:
+            if int(qty_wheels) % 2 == 0:
+                if flag_pattern == 'plain' or flag_color != flag_color_secondary:
+                    pass
+                else:
+                    msg = "Flag color and secondary flag color must be different!"
+                    return buggy_form()
+            else:
+                msg = "You must have an even number of wheels!"
+                return buggy_form()
+        else:
+            msg = "You must have more than 4 wheels!"
+            return buggy_form()
         try:
             with sql.connect(DATABASE_FILE) as con:
                 cur = con.cursor()

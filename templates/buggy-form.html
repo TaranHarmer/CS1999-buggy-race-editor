@@ -4,6 +4,8 @@
 
   <h1>Make buggy</h1>
 
+  <h2>{{msg}}</h2>
+
   <form action="/new" method="post">
     <label for="qty_wheels">Number of wheels:</label>
     <input type="number" name="qty_wheels" value={{ buggy['qty_wheels'] }} />
@@ -17,6 +19,8 @@
       <option {% if buggy['flag_color'] == 'Pink' %} selected {% endif %} value="Pink">Pink</option>
       <option {% if buggy['flag_color'] == 'Orange' %} selected {% endif %} value="Orange">Orange</option>
       <option {% if buggy['flag_color'] == 'Yellow' %} selected {% endif %} value="Yellow">Yellow</option>
+      <option {% if buggy['flag_color'] == 'Black' %} selected {% endif %} value="Black">Black</option>
+      <option {% if buggy['flag_color'] == 'White' %} selected {% endif %} value="White">White</option>
     </select>
     <br>
     <label for="flag_color_secondary">Secondary flag color:</label>
@@ -28,6 +32,8 @@
       <option {% if buggy['flag_color_secondary'] == 'Pink' %} selected {% endif %} value="Pink">Pink</option>
       <option {% if buggy['flag_color_secondary'] == 'Orange' %} selected {% endif %} value="Orange">Orange</option>
       <option {% if buggy['flag_color_secondary'] == 'Yellow' %} selected {% endif %} value="Yellow">Yellow</option>
+      <option {% if buggy['flag_color_secondary'] == 'Black' %} selected {% endif %} value="Black">Black</option>
+      <option {% if buggy['flag_color_secondary'] == 'White' %} selected {% endif %} value="White">White</option>
     </select>
     <br>
     <label for="flag_pattern">Flag pattern:</label>

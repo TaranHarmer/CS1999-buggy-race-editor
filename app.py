@@ -32,37 +32,73 @@ def create_buggy():
         record = cur.fetchone(); 
         return render_template("buggy-form.html", buggy = record, msg = msg)
     def calc_cost():
-        pass
+        cost = 0
+        options = [power_type,aux_power_type,attack]
+        cost_catalog = {'knobbly': 15,'slick': 10,'steelband': 20,'reactive': 40,'maglev': 50,'petrol': 4,'fusion': 400,'steam': 3,'bio': 5,
+            'electric': 20,'rocket': 16,'hamster': 3,'thermo': 300,'solar': 40,'wind': 20,'none': 0,'wood': 40,'aluminium': 200,'thinsteel': 100,
+            'thicksteel': 200,'titanium': 290,'spike': 5,'flame': 20,'charge': 28,'biohazard': 30}
+        for option in options:
+            cost += cost_catalog[option]
+        if qty_wheels > 4:
+            multiplier = (100+((qty_wheels-4)*10))/100
+            cost += cost_catalog[armour]*multiplier
+        else:
+            cost += cost_catalog[armour]
+        cost += cost_catalog[type_tyres] * qty_tyres
+        if fireproof == 'true':
+            cost += 70
+        if insulated == 'true':
+            cost += 100
+        if antibiotic == 'true':
+            cost += 90
+        if banging == 'true':
+            cost += 42
+        return cost
+
     if request.method == 'GET':
         return buggy_form()
     elif request.method == 'POST':
-        qty_wheels = request.form['qty_wheels']
-        qty_tyres = request.form['qty_tyres']
+        non_consumable = ['fusion','thermo','solar','wind']
+        qty_wheels = int(request.form['qty_wheels'])
+        qty_tyres = int(request.form['qty_tyres'])
         type_tyres = request.form['type_tyres']
         flag_color = request.form['flag_color']
         flag_color_secondary = request.form['flag_color_secondary']
         flag_pattern = request.form['flag_pattern']
         power_type = request.form['power_type']
-        power_units = request.form['power_units']
+        power_units = int(request.form['power_units'])
         aux_power_type = request.form['aux_power_type']
-        aux_power_units = request.form['aux_power_units']
-        hamster_booster = request.form['hamster_booster']
+        aux_power_units = int(request.form['aux_power_units'])
+        hamster_booster = int(request.form['hamster_booster'])
         armour = request.form['armour']
         attack = request.form['attack']
-        qty_attacks = request.form['qty_attacks']
+        qty_attacks = int(request.form['qty_attacks'])
         fireproof = request.form['fireproof']
         insulated = request.form['insulated']
         antibiotic = request.form['antibiotic']
         banging = request.form['banging']
         algo = request.form['algo']
+        total_cost = calc_cost()
         #2-Valid
-        if int(qty_wheels) >= 4:
-            if int(qty_wheels) % 2 == 0:
+        if qty_wheels >= 4:
+            if qty_wheels % 2 == 0:
                 if flag_pattern == 'plain' or flag_color != flag_color_secondary:
                     if qty_tyres >= qty_wheels:
-                        if int(power_units) >=1:
-                            if int(aux_power_units) >=0:
-                                if int(qty_attacks) <=0:
+                        if power_units >=1:
+                            if aux_power_units >=0:
+                                if qty_attacks >=0:
+                                    if hamster_booster >=0:
+                                        if hamster_booster >= 0 and power_type == 'hamster' or hamster_booster >= 0 and aux_power_type == 'hamster' or hamster_booster == 0 and power_type != 'hamster' or hamster_booster == 0 and aux_power_type != 'hamster':
+                                            if power_type in non_consumable and aux_power_type in non_consumable:
+                                                msg = "You can only have one unit of non-consumable power per motive force!"
+                                                return buggy_form()
+                                        else:
+                                            msg = "Hamster booster is only effective with hamster power type!"
+                                            return buggy_form()
+                                    else:
+                                        msg = "Hamster booster can't be negative!"
+                                        return buggy_form()
+                                else:
                                     msg = "Number of attacks can't be less than 0!"
                                     return buggy_form()
                             else:
@@ -88,8 +124,8 @@ def create_buggy():
             with sql.connect(DATABASE_FILE) as con:
                 cur = con.cursor()
                 cur.execute(
-                    "UPDATE buggies set qty_wheels=?, qty_tyres=?, type_tyres=?, power_type=?, power_units=?, aux_power_type=?, aux_power_units=?, hamster_booster=?, armour=?, attack=?, qty_attacks=?, fireproof=?, insulated=?, antibiotic=?, banging=?, algo=?, flag_color=?, flag_color_secondary=?, flag_pattern=? WHERE id=?",
-                    (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, DEFAULT_BUGGY_ID)
+                    "UPDATE buggies set qty_wheels=?, qty_tyres=?, type_tyres=?, power_type=?, power_units=?, aux_power_type=?, aux_power_units=?, hamster_booster=?, armour=?, attack=?, qty_attacks=?, fireproof=?, insulated=?, antibiotic=?, banging=?, algo=?, flag_color=?, flag_color_secondary=?, flag_pattern=?, total_cost=? WHERE id=?",
+                    (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, total_cost, DEFAULT_BUGGY_ID)
                 )
                 con.commit()
                 msg = "Record successfully saved"

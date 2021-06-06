@@ -10,6 +10,18 @@
     <label for="qty_wheels">Number of wheels:</label>
     <input type="number" name="qty_wheels" value={{ buggy['qty_wheels'] }} />
     <br>
+    <label for="qty_tyres">Number of tyres:</label>
+    <input type="number" name="qty_tyres" value={{ buggy['qty_tyres'] }} />
+    <br>
+    <label for="type_tyres">Type of tyres:</label>
+    <select id="tyre" name="type_tyres">
+      <option {% if buggy['type_tyres'] == 'knobbly' %} selected {% endif %} value="knobbly">knobbly</option>
+      <option {% if buggy['type_tyres'] == 'slick' %} selected {% endif %} value="slick">slick</option>
+      <option {% if buggy['type_tyres'] == 'steelband' %} selected {% endif %} value="steelband">steelband</option>
+      <option {% if buggy['type_tyres'] == 'reactive' %} selected {% endif %} value="reactive">reactive</option>
+      <option {% if buggy['type_tyres'] == 'maglev' %} selected {% endif %} value="maglev">maglev</option>
+    </select>
+    <br>
     <label for="flag_color">Flag color:</label>
     <select id="color" name="flag_color">
       <option {% if buggy['flag_color'] == 'Red' %} selected {% endif %} value="Red">Red</option>
@@ -46,6 +58,98 @@
       <option {% if buggy['flag_pattern'] == 'spot' %} selected {% endif %} value="spot">Spot</option>
     </select>
     <br>
+    <label for="power_type">Primary motive power:</label>
+    <select id="power" name="power_type">
+      <option {% if buggy['power_type'] == 'petrol' %} selected {% endif %} value="petrol">petrol</option>
+      <option {% if buggy['power_type'] == 'fusion' %} selected {% endif %} value="fusion">fusion</option>
+      <option {% if buggy['power_type'] == 'steam' %} selected {% endif %} value="steam">steam</option>
+      <option {% if buggy['power_type'] == 'bio' %} selected {% endif %} value="bio">bio</option>
+      <option {% if buggy['power_type'] == 'electric' %} selected {% endif %} value="electric">electric</option>
+      <option {% if buggy['power_type'] == 'rocket' %} selected {% endif %} value="rocket">rocket</option>
+      <option {% if buggy['power_type'] == 'hamster' %} selected {% endif %} value="hamster">hamster</option>
+      <option {% if buggy['power_type'] == 'thermo' %} selected {% endif %} value="thermo">thermo</option>
+      <option {% if buggy['power_type'] == 'solar' %} selected {% endif %} value="solar">solar</option>
+      <option {% if buggy['power_type'] == 'wind' %} selected {% endif %} value="wind">wind</option>
+    </select>
+    <br>
+    <label for="power_units">Primary motive power units:</label>
+    <input type="number" name="power_units" value={{ buggy['power_units'] }} />
+    <br>
+    <label for="aux_power_type">Auxillary motive power:</label>
+    <select id="aux power" name="aux_power_type">
+      <option {% if buggy['aux_power_type'] == 'petrol' %} selected {% endif %} value="petrol">petrol</option>
+      <option {% if buggy['aux_power_type'] == 'fusion' %} selected {% endif %} value="fusion">fusion</option>
+      <option {% if buggy['aux_power_type'] == 'steam' %} selected {% endif %} value="steam">steam</option>
+      <option {% if buggy['aux_power_type'] == 'bio' %} selected {% endif %} value="bio">bio</option>
+      <option {% if buggy['aux_power_type'] == 'electric' %} selected {% endif %} value="electric">electric</option>
+      <option {% if buggy['aux_power_type'] == 'rocket' %} selected {% endif %} value="rocket">rocket</option>
+      <option {% if buggy['aux_power_type'] == 'hamster' %} selected {% endif %} value="hamster">hamster</option>
+      <option {% if buggy['aux_power_type'] == 'thermo' %} selected {% endif %} value="thermo">thermo</option>
+      <option {% if buggy['aux_power_type'] == 'solar' %} selected {% endif %} value="solar">solar</option>
+      <option {% if buggy['aux_power_type'] == 'wind' %} selected {% endif %} value="wind">wind</option>
+    </select>
+    <br>
+    <label for="aux_power_units">Auxillary motive power units:</label>
+    <input type="number" name="aux_power_units" value={{ buggy['aux_power_units'] }} />
+    <br>
+    <label for="hamster_booster">Hamster Booster:</label>
+    <input type="number" name="hamster_booster" value={{ buggy['hamster_booster'] }} />
+    <br>
+    <label for="armour">Armour:</label>
+    <select id="armour" name="armour">
+      <option {% if buggy['armour'] == 'none' %} selected {% endif %} value="none">none</option>
+      <option {% if buggy['armour'] == 'wood' %} selected {% endif %} value="wood">wood</option>
+      <option {% if buggy['armour'] == 'aluminium' %} selected {% endif %} value="aluminium">aluminium</option>
+      <option {% if buggy['armour'] == 'thinsteel' %} selected {% endif %} value="thinsteel">thinsteel</option>
+      <option {% if buggy['armour'] == 'thicksteel' %} selected {% endif %} value="thicksteel">thicksteel</option>
+      <option {% if buggy['armour'] == 'titanium' %} selected {% endif %} value="titanium">titanium</option>
+    </select>
+    <br>
+    <label for="attack">Attack:</label>
+    <select id="attack" name="attack">
+      <option {% if buggy['attack'] == 'none' %} selected {% endif %} value="none">none</option>
+      <option {% if buggy['attack'] == 'spike' %} selected {% endif %} value="spike">spike</option>
+      <option {% if buggy['attack'] == 'flame' %} selected {% endif %} value="flame">flame</option>
+      <option {% if buggy['attack'] == 'charge' %} selected {% endif %} value="charge">charge</option>
+      <option {% if buggy['attack'] == 'biohazard' %} selected {% endif %} value="biohazard">biohazard</option>
+    </select>
+    <br>
+    <label for="qty_attacks">Number of attacks:</label>
+    <input type="number" name="qty_attacks" value={{ buggy['qty_attacks'] }} />
+    <br>
+    <label for="fireproof">Fireproof:</label>
+    <select id="fireproof" name="fireproof">
+      <option {% if buggy['fireproof'] == 'false' %} selected {% endif %} value="false">false</option>
+      <option {% if buggy['fireproof'] == 'true' %} selected {% endif %} value="true">true</option>
+    </select>
+    <br>
+    <label for="insulated">Insulated:</label>
+    <select id="insulated" name="insulated">
+      <option {% if buggy['insulated'] == 'false' %} selected {% endif %} value="false">false</option>
+      <option {% if buggy['insulated'] == 'true' %} selected {% endif %} value="true">true</option>
+    </select>
+    <br>
+    <label for="antibiotic">Antibiotic:</label>
+    <select id="antibiotic" name="antibiotic">
+      <option {% if buggy['antibiotic'] == 'false' %} selected {% endif %} value="false">false</option>
+      <option {% if buggy['antibiotic'] == 'true' %} selected {% endif %} value="true">true</option>
+    </select>
+    <br>
+    <label for="banging">Banging sound system:</label>
+    <select id="banging" name="banging">
+      <option {% if buggy['banging'] == 'false' %} selected {% endif %} value="false">false</option>
+      <option {% if buggy['banging'] == 'true' %} selected {% endif %} value="true">true</option>
+    </select>
+    <br>
+    <label for="algo">Race computer algorithm:</label>
+    <select id="algo" name="algo">
+      <option {% if buggy['algo'] == 'defensive' %} selected {% endif %} value="defensive">defensive</option>
+      <option {% if buggy['algo'] == 'steady' %} selected {% endif %} value="steady">steady</option>
+      <option {% if buggy['algo'] == 'offensive' %} selected {% endif %} value="offensive">offensive</option>
+      <option {% if buggy['algo'] == 'titfortat' %} selected {% endif %} value="titfortat">titfortat</option>
+      <option {% if buggy['algo'] == 'random' %} selected {% endif %} value="random">random</option>
+      <option {% if buggy['algo'] == 'buggy' %} selected {% endif %} value="buggy">buggy</option>
+    </select>
     <input type="submit" class="button">
   </form>
 

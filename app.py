@@ -31,18 +31,49 @@ def create_buggy():
         cur.execute("SELECT * FROM buggies")
         record = cur.fetchone(); 
         return render_template("buggy-form.html", buggy = record, msg = msg)
-
+    def calc_cost():
+        pass
     if request.method == 'GET':
         return buggy_form()
     elif request.method == 'POST':
         qty_wheels = request.form['qty_wheels']
+        qty_tyres = request.form['qty_tyres']
+        type_tyres = request.form['type_tyres']
         flag_color = request.form['flag_color']
         flag_color_secondary = request.form['flag_color_secondary']
         flag_pattern = request.form['flag_pattern']
+        power_type = request.form['power_type']
+        power_units = request.form['power_units']
+        aux_power_type = request.form['aux_power_type']
+        aux_power_units = request.form['aux_power_units']
+        hamster_booster = request.form['hamster_booster']
+        armour = request.form['armour']
+        attack = request.form['attack']
+        qty_attacks = request.form['qty_attacks']
+        fireproof = request.form['fireproof']
+        insulated = request.form['insulated']
+        antibiotic = request.form['antibiotic']
+        banging = request.form['banging']
+        algo = request.form['algo']
+        #2-Valid
         if int(qty_wheels) >= 4:
             if int(qty_wheels) % 2 == 0:
                 if flag_pattern == 'plain' or flag_color != flag_color_secondary:
-                    pass
+                    if qty_tyres >= qty_wheels:
+                        if int(power_units) >=1:
+                            if int(aux_power_units) >=0:
+                                if int(qty_attacks) <=0:
+                                    msg = "Number of attacks can't be less than 0!"
+                                    return buggy_form()
+                            else:
+                                msg = "Auxillary power units can't be less than 0!"
+                                return buggy_form()
+                        else:
+                            msg = "Primary power units must be greater than 1!"
+                            return buggy_form()
+                    else:
+                        msg = "Number of tyres must be greater than or equal to number of wheels!"
+                        return buggy_form() 
                 else:
                     msg = "Flag color and secondary flag color must be different!"
                     return buggy_form()
@@ -52,12 +83,13 @@ def create_buggy():
         else:
             msg = "You must have more than 4 wheels!"
             return buggy_form()
+        
         try:
             with sql.connect(DATABASE_FILE) as con:
                 cur = con.cursor()
                 cur.execute(
-                    "UPDATE buggies set qty_wheels=?, flag_color=?, flag_color_secondary=?, flag_pattern=? WHERE id=?",
-                    (qty_wheels, flag_color, flag_color_secondary, flag_pattern, DEFAULT_BUGGY_ID)
+                    "UPDATE buggies set qty_wheels=?, qty_tyres=?, type_tyres=?, power_type=?, power_units=?, aux_power_type=?, aux_power_units=?, hamster_booster=?, armour=?, attack=?, qty_attacks=?, fireproof=?, insulated=?, antibiotic=?, banging=?, algo=?, flag_color=?, flag_color_secondary=?, flag_pattern=? WHERE id=?",
+                    (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, DEFAULT_BUGGY_ID)
                 )
                 con.commit()
                 msg = "Record successfully saved"

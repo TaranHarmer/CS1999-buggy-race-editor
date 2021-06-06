@@ -26,9 +26,25 @@ connection.execute("""
   CREATE TABLE IF NOT EXISTS buggies (
     id                    INTEGER PRIMARY KEY,
     qty_wheels            INTEGER DEFAULT 4,
-    flag_color            VARCHAR(20),
-    flag_color_secondary  VARCHAR(20),
-    flag_pattern          VARCHAR(20)
+    qty_tyres             INTEGER DEFAULT 4,
+    type_tyres            VARCHAR(20) DEFAULT 'knobbly',
+    power_type            VARCHAR(20) DEFAULT 'petrol',
+    power_units           INTEGER DEFAULT '1',
+    aux_power_type        VARCHAR(20) DEFAULT 'none',
+    aux_power_units       INTEGER DEFAULT 0,
+    hamster_booster       VARCHAR(20) DEFAULT 0,
+    armour                VARCHAR(20) DEFAULT 'none',
+    attack                VARCHAR(20) DEFAULT 'none',
+    qty_attacks           VARCHAR(20) DEFAULT 0,
+    fireproof             VARCHAR(20) DEFAULT 'false',
+    insulated             VARCHAR(20) DEFAULT 'false',
+    antibiotic            VARCHAR(20) DEFAULT 'false',
+    banging               VARCHAR(20) DEFAULT 'false',
+    algo                  VARCHAR(20) DEFAULT 'steady',
+    flag_color            VARCHAR(20) DEFAULT 'white',
+    flag_color_secondary  VARCHAR(20) DEFAULT 'black',
+    flag_pattern          VARCHAR(20) DEFAULT 'plain',
+    total_cost            INTEGER DEFAULT 0
   )
 
 """)

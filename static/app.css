@@ -58,6 +58,7 @@ table {
   border: 2px solid #000000;
   border-collapse: collapse;
   margin: 0 0 2em 0;
+  background-color: rgba(186, 186, 186);
 }
 table td, table th {
   padding: 0.25em;

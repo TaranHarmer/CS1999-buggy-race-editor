@@ -24,13 +24,22 @@ def home():
 @app.route('/new', methods = ['POST', 'GET'])
 def create_buggy():
     msg=""
+    buggy_id='1'
     def buggy_form():
-        con = sql.connect(DATABASE_FILE)
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute("SELECT * FROM buggies")
-        record = cur.fetchone(); 
-        return render_template("buggy-form.html", buggy = record, msg = msg)
+        if buggy_id:
+            con = sql.connect(DATABASE_FILE)
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            cur.execute("SELECT * FROM buggies WHERE id=?", (buggy_id,))
+            record = cur.fetchone();
+            return render_template("buggy-form.html", buggy=record, msg=msg)
+        else:
+            record = {'id':None,'qty_wheels':4,'qty_tyres':4,'type_tyres':'knobbly','flag_color':'white','flag_color_secondary':'white','flag_pattern':'plain',
+                'power_type':'petrol','power_units':1,'aux_power_type':'none','aux_power_units':0,'hamster_booster':0,'armour':'none','attack':'none',
+                'qty_attacks':0,'fireproof':'false','insulated':'false','antibiotic':'false','banging':'false','algo':'steady'}
+            #return f"{record['qty_wheels']}"
+            return render_template("buggy-form.html",buggy=record, msg=msg)
+
     def calc_cost():
         cost = 0
         options = [power_type,aux_power_type,attack]
@@ -56,9 +65,10 @@ def create_buggy():
         return cost
 
     if request.method == 'GET':
-        return buggy_form()
+        buggy_form()
     elif request.method == 'POST':
         non_consumable = ['fusion','thermo','solar','wind']
+        buggy_id = request.form['buggy_id']
         qty_wheels = int(request.form['qty_wheels'])
         qty_tyres = int(request.form['qty_tyres'])
         type_tyres = request.form['type_tyres']
@@ -123,10 +133,16 @@ def create_buggy():
         try:
             with sql.connect(DATABASE_FILE) as con:
                 cur = con.cursor()
-                cur.execute(
-                    "UPDATE buggies set qty_wheels=?, qty_tyres=?, type_tyres=?, power_type=?, power_units=?, aux_power_type=?, aux_power_units=?, hamster_booster=?, armour=?, attack=?, qty_attacks=?, fireproof=?, insulated=?, antibiotic=?, banging=?, algo=?, flag_color=?, flag_color_secondary=?, flag_pattern=?, total_cost=? WHERE id=?",
-                    (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, total_cost, DEFAULT_BUGGY_ID)
-                )
+                if buggy_id:
+                    cur.execute(
+                        "UPDATE buggies set qty_wheels=?, qty_tyres=?, type_tyres=?, power_type=?, power_units=?, aux_power_type=?, aux_power_units=?, hamster_booster=?, armour=?, attack=?, qty_attacks=?, fireproof=?, insulated=?, antibiotic=?, banging=?, algo=?, flag_color=?, flag_color_secondary=?, flag_pattern=?, total_cost=? WHERE id=?",
+                        (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, total_cost, buggy_id)
+                    )
+                else:
+                    cur.execute(
+                        "INSERT INTO buggies(qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, total_cost) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                        (qty_wheels, qty_tyres, type_tyres, power_type, power_units, aux_power_type, aux_power_units, hamster_booster, armour, attack, qty_attacks, fireproof, insulated, antibiotic, banging, algo, flag_color, flag_color_secondary, flag_pattern, total_cost)
+                    )
                 con.commit()
                 msg = "Record successfully saved"
         except:
@@ -145,16 +161,22 @@ def show_buggies():
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("SELECT * FROM buggies")
-    record = cur.fetchone(); 
-    return render_template("buggy.html", buggy = record)
+    records = cur.fetchall(); 
+    return render_template("buggy.html", buggies = records)
 
 #------------------------------------------------------------
 # a placeholder page for editing the buggy: you'll need
 # to change this when you tackle task 2-EDIT
 #------------------------------------------------------------
-@app.route('/edit')
-def edit_buggy():
-    return render_template("buggy-form.html")
+@app.route('/edit/<buggy_id>')
+def edit_buggy(buggy_id):
+    print(f"FIXME I want to edit buggy #{buggy_id}")
+    con = sql.connect(DATABASE_FILE)
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute("SELECT * FROM buggies WHERE id=?", (buggy_id,))
+    record = cur.fetchone();
+    return render_template("buggy-form.html", buggy=record)
 
 #------------------------------------------------------------
 # You probably don't need to edit this... unless you want to ;)

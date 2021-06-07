@@ -2,11 +2,16 @@
 
 {% block content %}
 
-  <h1>Make buggy</h1>
+  {% if buggy %}
+    <h1>Editing buggy #{{ buggy['id'] }}</h1>
+  {% else %}
+    <h1>Make buggy</h1>
+  {% endif %}
 
   <h2>{{msg}}</h2>
 
   <form action="/new" method="post">
+    <input type="hidden" name="buggy_id" value={{ buggy['id'] }} >
     <label for="qty_wheels">Number of wheels:</label>
     <input type="number" name="qty_wheels" value={{ buggy['qty_wheels'] }} />
     <br>
@@ -77,6 +82,7 @@
     <br>
     <label for="aux_power_type">Auxillary motive power:</label>
     <select id="aux power" name="aux_power_type">
+      <option {% if buggy['aux_power_type'] == 'none' %} selected {% endif %} value="none">none</option>
       <option {% if buggy['aux_power_type'] == 'petrol' %} selected {% endif %} value="petrol">petrol</option>
       <option {% if buggy['aux_power_type'] == 'fusion' %} selected {% endif %} value="fusion">fusion</option>
       <option {% if buggy['aux_power_type'] == 'steam' %} selected {% endif %} value="steam">steam</option>

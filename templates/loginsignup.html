@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <style>
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+  </style>
+
+  {% if not logorsign %}
+
+    <div class="center">
+      <a href="/login" class="button">Log in</a>
+      <a href="/signup" class="button">Sign up</a>
+    </div>
+
+  {% elif logorsign == 'login' %}
+
+    <h1>LOG IN</h1>
+    <h2>{{msg}}</h2>
+
+    <form action="/login" method="POST">
+      <label for="username">Username: </label>
+      <input type="text" name="username" />
+      <label for="password">Password: </label>
+      <input type="password" name="password" />
+      <input type="submit" class="button">
+    </form>
+    
+    {% elif logorsign == 'signup' %}
+
+    <h1>SIGN UP</h1>
+    <h2>{{msg}}</h2>
+
+    <form action="/signup" method="POST">
+      <label for="username">Username: </label>
+      <input type="text" name="username" />
+      <label for="password">Password: </label>
+      <input type="password" name="password" />
+      <input type="submit" class="button">
+    </form>
+
+  {% endif %}
+
+  {% endblock %}

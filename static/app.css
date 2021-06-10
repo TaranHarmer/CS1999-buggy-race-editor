@@ -8,7 +8,6 @@ body {
   padding: 0;
   font-size: 2vmin;
   color: #000000;
-  /*background: repeating-linear-gradient(45deg,#ffff00,#ffff00 2em,#eeeeee 2em,#eeeeee 4em);*/
   background-image: url("https://media.istockphoto.com/vectors/auto-spare-parts-seamless-pattern-vector-id503808984?b=1&k=6&m=503808984&s=612x612&w=0&h=WycyRdYo3CccVUj4drVF4twgSTROfMq2MQn-8Q3MrGU=");
 }
 .main-content {

@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  <h1>Updated Buggy</h1>
+  {% if msg == "Successfully signed up" %}
+    <h1>Signed in</h1>
+  {% elif msg == "Successfully Logged in" %}
+    <h1>Logged in</h1>
+  {% else %}
+    <h1>Updated Buggy</h1>
+  {% endif %}
 
   <p>
     {{ msg }}
   </p>
   <p>
-    <a href="/" class="button">home</a>
+    <a href="/home" class="button">home</a>
   </p>
 
 {% endblock %}

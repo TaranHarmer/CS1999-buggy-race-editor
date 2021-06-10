@@ -39,7 +39,7 @@
       {% elif buggy['flag_pattern'] == 'checker' %}
         <td style="background-color: {{ buggy['flag_color_secondary'] }}; background-image: linear-gradient(45deg, {{ buggy['flag_color'] }} 25%, transparent 25%), linear-gradient(-45deg, {{ buggy['flag_color'] }} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, {{ buggy['flag_color'] }} 75%), linear-gradient(-45deg, transparent 75%, {{ buggy['flag_color'] }} 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;" ></td>
       {% elif buggy['flag_pattern'] == 'spot' %}
-        <td style="background-image: radial-gradient({{ buggy['flag_color_secondary'] }} 2%, transparent 20%), radial-gradient({{ buggy['flag_color_secondary'] }} 2%, transparent 20%); background-color: {{ buggy['flag_color'] }}; background-position: 0 0, 5px 5px; background-size: 10px 10px;" ></td>
+        <td style="background-image: radial-gradient({{ buggy['flag_color_secondary'] }} 10%, transparent 20%), radial-gradient({{ buggy['flag_color_secondary'] }} 10%, transparent 20%); background-color: {{ buggy['flag_color'] }}; background-position: 0 0, 10px 10px; background-size: 20px 20px;" ></td>
       {% endif %}
     </tr>
     <tr>
@@ -91,7 +91,7 @@
   {% endfor %}
 
   <p>
-    <a href="/" class="button">home</a>
+    <a href="/home" class="button">home</a>
   </p>
 
 {% endblock %}

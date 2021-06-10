@@ -8,11 +8,87 @@ app = Flask(__name__)
 DATABASE_FILE = "database.db"
 DEFAULT_BUGGY_ID = "1"
 BUGGY_RACE_SERVER_URL = "https://rhul.buggyrace.net"
+User = ''
+
+#------------------------------------------------------------
+# the initial page
+#------------------------------------------------------------
+@app.route('/')
+def users():
+    return render_template('loginsignup.html', logorsign=None)
+
+#------------------------------------------------------------
+# the login page
+#------------------------------------------------------------
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    msg=''
+    def log():
+        return render_template('loginsignup.html', logorsign='login',msg=msg)
+    if request.method == 'GET':
+        return log()
+    elif request.method == 'POST':
+        User = request.form['username']
+        Password = request.form['password']
+        con = sql.connect(DATABASE_FILE)
+        cur = con.cursor()
+        cur.execute("SELECT username from users WHERE username=? AND password=?", (User, Password))
+        if not cur.fetchone():
+            msg='Password or Username incorrect'
+            return log()
+        else:
+            msg = "Successfully Logged in"
+            return render_template("updated.html", msg = msg)
+
+#------------------------------------------------------------
+# the signup page
+#------------------------------------------------------------
+@app.route('/signup', methods = ['GET', 'POST'])
+def signup():
+    msg=''
+    def sign():
+        return render_template('loginsignup.html', logorsign='signup',msg=msg)
+    if request.method == 'GET':
+        return sign()
+    elif request.method == 'POST':
+        def containsNumber(passPasswordword):
+            return any(char.isdigit() for char in Password)
+        User = request.form['username']
+        Password = request.form['password']
+        if containsNumber(Password) == True:
+            if len(Password) > 7:
+                if len(Password) <= 20:
+                    if len(User) > 0:
+                        con = sql.connect(DATABASE_FILE)
+                        cur = con.cursor()
+                        cur.execute("SELECT username from users WHERE username=?", (User,))
+                        if not cur.fetchone():
+                            with sql.connect(DATABASE_FILE) as con:
+                                cur = con.cursor()
+                                cur.execute("INSERT INTO users (username, password) VALUES(?,?);", (User, Password))
+                            con.commit()
+                            msg = "Successfully signed up"
+                            return render_template("updated.html", msg = msg)   
+                        else:
+                            msg='Username alreday taken'
+                            return sign()
+                    else:
+                        msg='Username must be at least 1 characters long'
+                        return sign()                        
+                else:
+                    msg='Password cannot exceed 20 characters long'
+                    return sign()
+            else:
+                msg='Password must be at least 8 characters long'
+                return sign()
+        else:
+            msg='Password must containat least 1 number'
+            return sign()   
 
 #------------------------------------------------------------
 # the index page
 #------------------------------------------------------------
-@app.route('/')
+@app.route('/home')
 def home():
     return render_template('index.html', server_url=BUGGY_RACE_SERVER_URL)
 

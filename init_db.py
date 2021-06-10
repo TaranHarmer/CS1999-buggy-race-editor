@@ -24,6 +24,7 @@ print("- Opened database successfully in file \"{}\"".format(DATABASE_FILE))
 connection.execute("""
 
   CREATE TABLE IF NOT EXISTS buggies (
+    user                  VARCHAR(20),
     id                    INTEGER PRIMARY KEY,
     qty_wheels            INTEGER DEFAULT 4,
     qty_tyres             INTEGER DEFAULT 4,
@@ -45,6 +46,15 @@ connection.execute("""
     flag_color_secondary  VARCHAR(20) DEFAULT 'black',
     flag_pattern          VARCHAR(20) DEFAULT 'plain',
     total_cost            INTEGER DEFAULT 0
+  )
+
+""")
+
+connection.execute("""
+
+  CREATE TABLE IF NOT EXISTS users (
+    username              VARCHAR(20),
+    password              VARCHAR(20)
   )
 
 """)

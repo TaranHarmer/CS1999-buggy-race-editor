@@ -69,7 +69,7 @@
       <td>Total Cost:</td> <td> {{ buggy['total_cost'] }} </td>
     </tr>
     <tr>
-      <td colspan="2"><a href="/edit/{{ buggy['id'] }}">Edit me</a></td>
+      <td><a href="/edit/{{ buggy['id'] }}">Edit me</a></td> <td><a href="/delete/{{ buggy['id'] }}">Delete buggy</a></td>
     </tr>
   </table>
   {% endfor %}

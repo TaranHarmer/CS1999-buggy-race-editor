@@ -24,7 +24,7 @@ def home():
 @app.route('/new', methods = ['POST', 'GET'])
 def create_buggy():
     msg=""
-    buggy_id='1'
+    buggy_id=None
     def buggy_form():
         if buggy_id:
             con = sql.connect(DATABASE_FILE)
@@ -34,11 +34,7 @@ def create_buggy():
             record = cur.fetchone();
             return render_template("buggy-form.html", buggy=record, msg=msg)
         else:
-            record = {'id':None,'qty_wheels':4,'qty_tyres':4,'type_tyres':'knobbly','flag_color':'white','flag_color_secondary':'white','flag_pattern':'plain',
-                'power_type':'petrol','power_units':1,'aux_power_type':'none','aux_power_units':0,'hamster_booster':0,'armour':'none','attack':'none',
-                'qty_attacks':0,'fireproof':'false','insulated':'false','antibiotic':'false','banging':'false','algo':'steady'}
-            #return f"{record['qty_wheels']}"
-            return render_template("buggy-form.html",buggy=record, msg=msg)
+            return render_template("buggy-form.html",buggy=None, msg=msg)
 
     def calc_cost():
         cost = 0
@@ -65,7 +61,7 @@ def create_buggy():
         return cost
 
     if request.method == 'GET':
-        buggy_form()
+        return buggy_form()
     elif request.method == 'POST':
         non_consumable = ['fusion','thermo','solar','wind']
         buggy_id = request.form['buggy_id']
@@ -170,13 +166,21 @@ def show_buggies():
 #------------------------------------------------------------
 @app.route('/edit/<buggy_id>')
 def edit_buggy(buggy_id):
-    print(f"FIXME I want to edit buggy #{buggy_id}")
     con = sql.connect(DATABASE_FILE)
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("SELECT * FROM buggies WHERE id=?", (buggy_id,))
     record = cur.fetchone();
     return render_template("buggy-form.html", buggy=record)
+
+@app.route('/delete/<buggy_id>')
+def delete_buggy(buggy_id):
+    con = sql.connect(DATABASE_FILE)
+    cur = con.cursor()
+    cur.execute("DELETE FROM buggies WHERE id=?", (buggy_id,))
+    con.commit()
+    return show_buggies()
+    
 
 #------------------------------------------------------------
 # You probably don't need to edit this... unless you want to ;)
@@ -192,10 +196,9 @@ def summary():
     con = sql.connect(DATABASE_FILE)
     con.row_factory = sql.Row
     cur = con.cursor()
-    cur.execute("SELECT * FROM buggies WHERE id=? LIMIT 1", (DEFAULT_BUGGY_ID))
-
-    buggies = dict(zip([column[0] for column in cur.description], cur.fetchone())).items() 
-    return jsonify({ key: val for key, val in buggies if (val != "" and val is not None) })
+    cur.execute("SELECT * FROM buggies")
+    buggies = cur.fetchall()
+    return jsonify(list((dict(buggy) for buggy in buggies)))
 
 # You shouldn't need to add anything below this!
 if __name__ == '__main__':

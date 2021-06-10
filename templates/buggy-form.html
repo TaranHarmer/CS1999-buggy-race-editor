@@ -16,7 +16,7 @@
     <input type="number" name="qty_wheels" {% if buggy %} value={{ buggy['qty_wheels'] }} {% else %} value=4 {% endif %} />
     <br>
     <label for="qty_tyres">Number of tyres:</label>
-    <input type="number" name="qty_tyres" {% if buggy %} value={ buggy['qty_tyres'] }} {% else %} value=4 {% endif %} />
+    <input type="number" name="qty_tyres" {% if buggy %} value={{ buggy['qty_tyres'] }} {% else %} value=4 {% endif %} />
     <br>
     <label for="type_tyres">Type of tyres:</label>
     <select id="tyre" name="type_tyres">
@@ -28,6 +28,7 @@
     </select>
     <br>
     <label for="flag_color">Flag color:</label>
+    <!--<input type="color" name="flag_color" {% if buggy %} value={{ buggy['flag_color'] }} {% else %} value=#FFFFFF {% endif %} />-->
     <select id="color" name="flag_color">
       <option {% if buggy['flag_color'] == 'Red' %} selected {% endif %} value="Red">Red</option>
       <option {% if buggy['flag_color'] == 'Blue' %} selected {% endif %} value="Blue">Blue</option>
@@ -41,7 +42,8 @@
     </select>
     <br>
     <label for="flag_color_secondary">Secondary flag color:</label>
-    <select id="color" name="flag_color_secondary">
+    <!--<input type="color" name="flag_color_secondary" {% if buggy %} value={{ buggy['flag_color_secondary'] }} {% else %} value=#EEEEE {% endif %} />-->
+    <select id="secondary_color" name="flag_color_secondary">
       <option {% if buggy['flag_color_secondary'] == 'Red' %} selected {% endif %} value="Red">Red</option>
       <option {% if buggy['flag_color_secondary'] == 'Blue' %} selected {% endif %} value="Blue">Blue</option>
       <option {% if buggy['flag_color_secondary'] == 'Green' %} selected {% endif %} value="Green">Green</option>
@@ -54,7 +56,7 @@
     </select>
     <br>
     <label for="flag_pattern">Flag pattern:</label>
-    <select id="color" name="flag_pattern">
+    <select id="pattern" name="flag_pattern">
       <option {% if buggy['flag_pattern'] == 'plain' or not buggy %} selected {% endif %} value="plain">Plain pattern</option>
       <option {% if buggy['flag_pattern'] == 'vstripe' %} selected {% endif %} value="vstripe">Vertical stripe</option>
       <option {% if buggy['flag_pattern'] == 'hstripe' %} selected {% endif %} value="hstripe">Horizontal stripe</option>
